@@ -1,0 +1,19 @@
+server.port: 9080
+
+my:
+  greeting: Hello test World!
+  list:
+    values: One,Two,Three
+
+app:
+  name: My app
+  description: Welcome to ${app.name}
+
+dbValues: "{connectionString: 'http://localhost', userName: 'foo', password:'pass'}"
+
+db:
+  connection: test-connection-string-here
+  host: localhost
+  port: 1200
+
+management.endpoints.web.exposure.include: "*"

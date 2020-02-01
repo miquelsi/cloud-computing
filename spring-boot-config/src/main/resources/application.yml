@@ -1,0 +1,21 @@
+server.port: 9080
+
+my:
+  greeting: Hello World!
+  list:
+    values: One,Two,Three
+
+app:
+  name: My app
+  description: Welcome to ${app.name}
+  
+dbValues: "{connectionString: 'http://localhost', userName: 'foo', password:'pass'}"
+
+
+management.endpoints.web.exposure.include: "*"
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+  application:
+    name: spring-boot-config # If the config server has a file named spring-boot-config.yaml, it will use those props
