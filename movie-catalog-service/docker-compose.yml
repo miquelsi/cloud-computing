@@ -1,0 +1,31 @@
+discovery-server:
+  image: local/discovery-server
+  ports:
+    - "8761:8761"
+
+movie-info-service:
+  image: local/movie-info-service
+  ports:
+    - "9080:8080"
+  links:
+    - discovery-server
+  environment:
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+ratings-data-service:
+  image: local/ratings-data-service
+  ports:
+    - "9081:8080"
+  links:
+    - discovery-server
+  environment:
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+movie-catalog-service:
+  image: local/movie-catalog-service
+  ports:
+    - "9082:8080"
+  links:
+    - discovery-server
+  environment:
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
