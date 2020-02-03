@@ -15,34 +15,17 @@ import java.util.Arrays;
 public class UserRatingInfo {
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
     private WebClient.Builder webClientBuilder;
 
-    //@HystrixCommand(fallbackMethod = "getFallbackUserRating")
+    @HystrixCommand(fallbackMethod = "getFallbackUserRating")
     public UserRating getUserRating(@PathVariable("userId") String userId) {
-//        try {
-//            UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/users/" + userId, UserRating.class);
-//            return userRating;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        return null;
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:9081/ratingsdata/users/" + userId)
+                .uri("http://ratings-data-service/ratingsdata/users/" + userId)
                 .retrieve()
                 .bodyToMono(UserRating.class)
                 .block();
     }
-
-    //            Movie movie = webClientBuilder.build()
-//                    .get()
-//                    .uri("http://localhost:9082/movies/" + rating.getMovieId())
-//                    .retrieve()
-//                    .bodyToMono(Movie.class) // Reactive (asyncronous) call, we use .block() to wait for the response
-//                    .block();
 
 
     public UserRating getFallbackUserRating(@PathVariable("userId") String userId) {

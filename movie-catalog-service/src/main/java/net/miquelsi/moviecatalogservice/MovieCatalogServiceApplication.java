@@ -16,12 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableHystrixDashboard
 public class MovieCatalogServiceApplication {
 
-	@Bean // Hey, Spring, whenever someone requests a RestTemplate instance, use this
-	@LoadBalanced // Load balance among available servers
-	public RestTemplate getRestTemplate() { // Method name does not matter. Return type matters.
-		return new RestTemplate();
-	}
-
 	@Bean
 	@LoadBalanced
 	public WebClient.Builder getWebClientBuilder() {

@@ -6,17 +6,22 @@ import net.miquelsi.moviecatalogservice.models.Movie;
 import net.miquelsi.moviecatalogservice.models.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class MovieInfo {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private WebClient.Builder webClientBuilder;
 
     @HystrixCommand(fallbackMethod = "getFallbackCatalogItem")
     public CatalogItem getCatalogItem(Rating rating) {
-        Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
+        Movie movie = webClientBuilder.build()
+                .get()
+                .uri("http://movie-info-service/movies/" + rating.getMovieId())
+                .retrieve()
+                .bodyToMono(Movie.class)
+                .block();
         return new CatalogItem(movie.getName(), "This is a test description", rating.getRating());
     }
 
